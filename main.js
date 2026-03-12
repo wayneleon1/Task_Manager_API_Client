@@ -1,4 +1,4 @@
-import { APIClient } from "./api.js";
+import { APIClient } from "./api/api.js";
 
 async function main() {
   const apiClient = new APIClient("https://jsonplaceholder.typicode.com");
