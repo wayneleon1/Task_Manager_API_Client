@@ -56,7 +56,17 @@ export class User {
     return (completed / this.tasks.length) * 100;
   }
 
+  getCompletedTasks() {
+    return this.tasks.filter((t) => t.completed).length;
+  }
+
+  getPendingTasks() {
+    return this.tasks.filter((t) => !t.completed).length;
+  }
+
   getTasksByStatus(status) {
-    return this.tasks.filter((t) => t.getStatus().includes(status));
+    return this.tasks.filter((t) =>
+      t.getStatus().toLowerCase().includes(status.toLowerCase()),
+    );
   }
 }
