@@ -1,7 +1,7 @@
 {
   "name": "task_manager_api_client",
   "version": "1.0.0",
-  "description": "",
+  "description": "Task Manager API Client with modern ES6+ practices",
   "homepage": "https://github.com/wayneleon1/Task_Manager_API_Client#readme",
   "bugs": {
     "url": "https://github.com/wayneleon1/Task_Manager_API_Client/issues"
@@ -16,6 +16,6 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js"
+    "start": "node --watch main.js"
   }
 }

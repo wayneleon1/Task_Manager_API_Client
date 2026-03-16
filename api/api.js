@@ -1,60 +1,38 @@
 export class APIClient {
-  constructor(baseURL) {
+  constructor(baseURL = "https://jsonplaceholder.typicode.com") {
     this.baseURL = baseURL;
   }
 
   async fetchUsers() {
     try {
-      const response = await fetch(`${this.baseURL}/users`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      if (error instanceof TypeError) {
-        console.error("Network error or invalid URL:", error);
-      } else {
-        console.error("Error fetching users:", error);
-      }
-      throw error;
+      const res = await fetch(`${this.baseURL}/users`);
+      if (!res.ok) throw new Error("Failed to fetch users");
+      return res.json();
+    } catch (err) {
+      console.error("Error fetching users:", err.message);
+      return [];
     }
   }
 
   async fetchTodos() {
     try {
-      const response = await fetch(`${this.baseURL}/todos`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      if (error instanceof TypeError) {
-        console.error("Network error or invalid URL:", error);
-      } else {
-        console.error("Error fetching todos:", error);
-      }
-
-      throw error;
+      const res = await fetch(`${this.baseURL}/todos`);
+      if (!res.ok) throw new Error("Failed to fetch todos");
+      return res.json();
+    } catch (err) {
+      console.error("Error fetching todos:", err.message);
+      return [];
     }
   }
 
   async fetchUserTodos(userId) {
     try {
-      const response = await fetch(`${this.baseURL}/todos?userId=${userId}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      if (error instanceof TypeError) {
-        console.error("Network error or invalid URL:", error);
-      } else {
-        console.error(`Error fetching todos for user ${userId}:`, error);
-      }
-      throw error;
+      const res = await fetch(`${this.baseURL}/users/${userId}/todos`);
+      if (!res.ok) throw new Error("Failed to fetch user todos");
+      return res.json();
+    } catch (err) {
+      console.error("Error fetching user todos:", err.message);
+      return [];
     }
   }
 }

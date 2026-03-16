@@ -1,49 +1,49 @@
-class Task {
-  constructor(id, title, completed, userId) {
+export class Task {
+  constructor({ id, title, completed, userId }) {
     this.id = id;
     this.title = title;
     this.completed = completed;
     this.userId = userId;
   }
 
-  static toggle(task) {
-    task.completed = !task.completed;
+  toggle() {
+    this.completed = !this.completed;
   }
 
-  static isOverdue(task) {
-    const now = new Date();
-    const dueDate = new Date(task.dueDate);
-    return !task.completed && dueDate < now;
+  getStatus() {
+    return this.completed ? "Completed" : "Pending";
   }
 
-  static getStatus(task) {
-    if (task.completed) {
-      return "Completed";
-    } else if (Task.isOverdue(task)) {
-      return "Overdue";
-    } else {
-      return "Pending";
-    }
-  }
-  static getUserId(task) {
-    return task.userId;
+  isOverdue() {
+    return !this.completed;
   }
 }
 
-class PriorityTask extends Task {
-  constructor(priority, dueDate) {
-    super(id, title, completed, userId);
+export class PriorityTask extends Task {
+  constructor({
+    id,
+    title,
+    completed,
+    userId,
+    priority = "low",
+    dueDate = null,
+  }) {
+    super({ id, title, completed, userId });
     this.priority = priority;
     this.dueDate = dueDate;
   }
+
+  getStatus() {
+    return `${super.getStatus()} | Priority: ${this.priority}`;
+  }
 }
 
-class User {
-  constructor(id, name, email, tasks = []) {
+export class User {
+  constructor({ id, name, email }) {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.tasks = tasks;
+    this.tasks = [];
   }
 
   addTask(task) {
@@ -52,11 +52,11 @@ class User {
 
   getCompletionRate() {
     if (this.tasks.length === 0) return 0;
-    const completedTasks = this.tasks.filter((task) => task.completed).length;
-    return (completedTasks / this.tasks.length) * 100;
+    const completed = this.tasks.filter((t) => t.completed).length;
+    return (completed / this.tasks.length) * 100;
   }
 
   getTasksByStatus(status) {
-    return this.tasks.filter((task) => Task.getStatus(task) === status);
+    return this.tasks.filter((t) => t.getStatus().includes(status));
   }
 }
