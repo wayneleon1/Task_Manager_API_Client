@@ -65,8 +65,8 @@ export class User {
   }
 
   getTasksByStatus(status) {
-    return this.tasks.filter((t) =>
-      t.getStatus().toLowerCase().includes(status.toLowerCase()),
+    return this.tasks.filter(
+      (t) => t.getStatus().toLowerCase() === status.toLowerCase(),
     );
   }
 }

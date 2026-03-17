@@ -11,6 +11,7 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+
 function showMenu() {
   console.log(`
 === Task Manager CLI ===
@@ -19,7 +20,7 @@ function showMenu() {
 3. Show all tasks
 4. Show pending tasks
 5. Fetch tasks for a specific user (API call)
-6. Show tasks by status (Completed/Pending) from local cache
+6. Show tasks by status (Completed/Pending)
 7. Group tasks by user (Map)
 8. Extract unique tags/categories (Set)
 9. Search tasks by keyword
@@ -80,6 +81,12 @@ async function handleMenu(choice) {
 
     case "6":
       rl.question("Enter status (Completed/Pending): ", (status) => {
+        if (!["completed", "pending"].includes(status.toLowerCase())) {
+          console.warn("Invalid status. Use 'Completed' or 'Pending'.");
+
+          showMenu();
+          return [];
+        }
         users.forEach((u) => {
           const filtered = u.getTasksByStatus(status);
           if (filtered.length > 0) {
