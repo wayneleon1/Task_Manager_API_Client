@@ -1,5 +1,5 @@
 export class Task {
-  constructor({ id, title, completed, userId }) {
+  constructor({ id, title, completed, userId } = {}) {
     this.id = id;
     this.title = title;
     this.completed = completed;
@@ -27,7 +27,7 @@ export class PriorityTask extends Task {
     userId,
     priority = "low",
     dueDate = null,
-  }) {
+  } = {}) {
     super({ id, title, completed, userId });
     this.priority = priority;
     this.dueDate = dueDate;
@@ -39,7 +39,7 @@ export class PriorityTask extends Task {
 }
 
 export class User {
-  constructor({ id, name, email }) {
+  constructor({ id, name, email } = {}) {
     this.id = id;
     this.name = name;
     this.email = email;
@@ -52,21 +52,25 @@ export class User {
 
   getCompletionRate() {
     if (this.tasks.length === 0) return 0;
-    const completed = this.tasks.filter((t) => t.completed).length;
+    // Filter out null tasks before checking completed
+    const completed = this.tasks.filter((t) => t && t.completed).length;
     return (completed / this.tasks.length) * 100;
   }
 
   getCompletedTasks() {
-    return this.tasks.filter((t) => t.completed).length;
+    // Filter out null tasks
+    return this.tasks.filter((t) => t && t.completed).length;
   }
 
   getPendingTasks() {
-    return this.tasks.filter((t) => !t.completed).length;
+    // Filter out null tasks
+    return this.tasks.filter((t) => t && !t.completed).length;
   }
 
   getTasksByStatus(status) {
+    // Filter out null tasks and then filter by status
     return this.tasks.filter(
-      (t) => t.getStatus().toLowerCase() === status.toLowerCase(),
+      (t) => t && t.getStatus().toLowerCase() === status.toLowerCase(),
     );
   }
 }

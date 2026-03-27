@@ -7,7 +7,7 @@ export class APIClient {
     try {
       const res = await fetch(`${this.baseURL}/users`);
       if (!res.ok) throw new Error("Failed to fetch users");
-      return res.json();
+      return await res.json();
     } catch (err) {
       console.error("Error fetching users:", err.message);
       return [];
@@ -18,7 +18,7 @@ export class APIClient {
     try {
       const res = await fetch(`${this.baseURL}/todos`);
       if (!res.ok) throw new Error("Failed to fetch todos");
-      return res.json();
+      return await res.json();
     } catch (err) {
       console.error("Error fetching todos:", err.message);
       return [];
@@ -29,7 +29,7 @@ export class APIClient {
     try {
       const res = await fetch(`${this.baseURL}/users/${userId}/todos`);
       if (!res.ok) throw new Error("Failed to fetch user todos");
-      return res.json();
+      return await res.json();
     } catch (err) {
       console.error("Error fetching user todos:", err.message);
       return [];
