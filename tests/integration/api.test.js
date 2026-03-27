@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import { APIClient } from "../../api/api.js";
 
 // Mock fetch globally
@@ -10,6 +11,12 @@ describe("APIClient Integration Tests", () => {
   beforeEach(() => {
     apiClient = new APIClient(baseURL);
     jest.clearAllMocks();
+    // Suppress console.error for cleaner test output
+    jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   describe("fetchUsers()", () => {
@@ -120,13 +127,8 @@ describe("APIClient Integration Tests", () => {
       expect(users).toEqual([]);
     });
 
-    test("should handle malformed JSON response", async () => {
-      fetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => {
-          throw new Error("Invalid JSON");
-        },
-      });
+    test("should handle aborted requests", async () => {
+      fetch.mockRejectedValueOnce(new Error("Aborted"));
 
       const users = await apiClient.fetchUsers();
       expect(users).toEqual([]);

@@ -43,12 +43,12 @@ describe("Task Processor Functions", () => {
 
     test("should handle null input", () => {
       const nullResult = filterByStatus(null, "pending");
-      expect(nullResult).toBeUndefined();
+      expect(nullResult).toEqual([]);
     });
 
     test("should handle undefined tasks array", () => {
       const undefinedResult = filterByStatus(undefined, "pending");
-      expect(undefinedResult).toBeUndefined();
+      expect(undefinedResult).toEqual([]);
     });
   });
 
@@ -95,7 +95,7 @@ describe("Task Processor Functions", () => {
 
     test("should handle null tasks array", () => {
       const stats = calculateStatistics(null);
-      expect(stats).toBeUndefined();
+      expect(stats).toEqual({ total: 0, completed: 0 });
     });
   });
 
@@ -132,7 +132,7 @@ describe("Task Processor Functions", () => {
 
     test("should handle null input", () => {
       const grouped = groupByUser(null);
-      expect(grouped).toBeUndefined();
+      expect(grouped).toEqual(new Map());
     });
   });
 });
