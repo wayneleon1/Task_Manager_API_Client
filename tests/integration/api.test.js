@@ -127,6 +127,22 @@ describe("APIClient Integration Tests", () => {
       expect(users).toEqual([]);
     });
 
+    test("should handle malformed JSON response", async () => {
+      // Create a mock response with a json method that rejects
+      const mockResponse = {
+        ok: true,
+        json: () => Promise.reject(new Error("Invalid JSON")),
+      };
+
+      fetch.mockResolvedValueOnce(mockResponse);
+
+      const users = await apiClient.fetchUsers();
+
+      // Should return empty array when JSON parsing fails
+      expect(users).toEqual([]);
+      expect(fetch).toHaveBeenCalledWith(`${baseURL}/users`);
+    });
+
     test("should handle aborted requests", async () => {
       fetch.mockRejectedValueOnce(new Error("Aborted"));
 

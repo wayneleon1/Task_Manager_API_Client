@@ -17,6 +17,9 @@
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/**/*.js",
+      "api/**/*.js",
+      "controller/**/*.js",
+      "model/**/*.js",
       "!src/main.js",
       "!**/node_modules/**"
     ],
